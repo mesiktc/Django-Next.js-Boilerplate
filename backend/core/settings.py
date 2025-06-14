@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     
     # Local apps
     'users',
+    'payments',
 ]
 
 MIDDLEWARE = [
@@ -228,3 +229,15 @@ SOCIALACCOUNT_PROVIDERS = {
         }
     }
 }
+
+# Payment Settings
+PAYMENT_PROVIDER = os.getenv('PAYMENT_PROVIDER', 'stripe')  # 'stripe' or 'lemonsqueezy'
+
+# Stripe Settings
+STRIPE_PUBLIC_KEY = os.getenv('STRIPE_PUBLIC_KEY', '')
+STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY', '')
+STRIPE_WEBHOOK_SECRET = os.getenv('STRIPE_WEBHOOK_SECRET', '')
+
+# LemonSqueezy Settings
+LEMON_SQUEEZY_API_KEY = os.getenv('LEMON_SQUEEZY_API_KEY', '')
+LEMON_SQUEEZY_WEBHOOK_SECRET = os.getenv('LEMON_SQUEEZY_WEBHOOK_SECRET', '')

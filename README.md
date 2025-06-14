@@ -1,69 +1,174 @@
 # Django + Next.js Boilerplate
 
-A fullstack boilerplate with Django (DRF) backend and Next.js frontend, ready for Docker deployment.
+A modern web application boilerplate using Django for the backend and Next.js for the frontend.
 
 ## Features
-- Django 4.x + DRF + JWT Auth
-- Next.js 14+ (App Router, TypeScript, Tailwind CSS)
-- PostgreSQL database
-- Dockerized for local dev and production
-- User registration, login, profile (JWT)
-- Swagger/Redoc API docs
 
-## Quick Start
+- **Backend (Django)**
+  - Django REST Framework for API endpoints
+  - JWT Authentication
+  - Google OAuth2 Authentication
+  - PostgreSQL Database
+  - CORS Configuration
+  - Swagger/OpenAPI Documentation
+  - Payment Integration (Stripe & LemonSqueezy)
+  - Subscription Management
 
-### 1. Clone and configure
+- **Frontend (Next.js)**
+  - TypeScript Support
+  - Tailwind CSS for Styling
+  - React Bootstrap Components
+  - Protected Routes
+  - Authentication Flow
+  - Payment Screen
+  - Responsive Design
+
+## Prerequisites
+
+- Python 3.11+
+- Node.js 18+
+- PostgreSQL
+- Stripe Account (for payments)
+- LemonSqueezy Account (optional, alternative payment provider)
+
+## Setup
+
+### Backend Setup
+
+1. Create and activate a virtual environment:
 ```bash
-git clone <repo-url>
-cd django+nextjs-biolerplate
-cp backend/.env.example backend/.env  # Edit as needed
-cp frontend/.env.example frontend/.env  # Edit as needed
+cd backend
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
 ```
 
-### 2. Build and run with Docker Compose
+2. Install dependencies:
 ```bash
-docker-compose up --build
+pip install -r requirements.txt
 ```
-- Backend: http://localhost:8000
-- Frontend: http://localhost:3000
-- Swagger: http://localhost:8000/swagger/
 
-### 3. Create a superuser (optional)
+3. Set up environment variables:
 ```bash
-docker-compose exec backend python manage.py createsuperuser
+cp .env.example .env
+```
+Edit `.env` with your configuration:
+```
+# Django Settings
+DEBUG=True
+SECRET_KEY=your_secret_key
+ALLOWED_HOSTS=localhost,127.0.0.1
+
+# Database Settings
+DATABASE_URL=postgres://user:password@localhost:5432/dbname
+
+# Email Settings
+EMAIL_BACKEND=django.core.mail.backends.console.EmailBackend
+
+# Google OAuth2 Settings
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
+GOOGLE_CALLBACK_URL=http://localhost:3000/auth/google/callback
+
+# Payment Settings
+PAYMENT_PROVIDER=stripe  # or lemonsqueezy
+
+# Stripe Settings
+STRIPE_PUBLIC_KEY=your_stripe_public_key
+STRIPE_SECRET_KEY=your_stripe_secret_key
+STRIPE_WEBHOOK_SECRET=your_stripe_webhook_secret
+
+# LemonSqueezy Settings
+LEMON_SQUEEZY_API_KEY=your_lemonsqueezy_api_key
+LEMON_SQUEEZY_WEBHOOK_SECRET=your_lemonsqueezy_webhook_secret
 ```
 
-## Directory Structure
-```
-django+nextjs-biolerplate/
-├── backend/      # Django project
-├── frontend/     # Next.js app
-├── docker-compose.yml
-└── README.md
+4. Run migrations:
+```bash
+python manage.py migrate
 ```
 
-## Environment Variables
+5. Create a superuser:
+```bash
+python manage.py createsuperuser
+```
 
-### Backend (`backend/.env`)
-See `backend/.env.example` for all available variables. Key variables:
-- `DEBUG`
-- `SECRET_KEY`
-- `ALLOWED_HOSTS`
-- `DB_ENGINE`, `DB_NAME`, `DB_USER`, `DB_PASSWORD`, `DB_HOST`, `DB_PORT`
-- `JWT_SECRET_KEY`, `JWT_ACCESS_TOKEN_LIFETIME`, `JWT_REFRESH_TOKEN_LIFETIME`
-- `EMAIL_BACKEND`, `EMAIL_HOST`, `EMAIL_PORT`, `EMAIL_USE_TLS`, `EMAIL_HOST_USER`, `EMAIL_HOST_PASSWORD`
-- `CORS_ALLOWED_ORIGINS`, `CSRF_TRUSTED_ORIGINS`
+6. Start the development server:
+```bash
+python manage.py runserver
+```
 
-### Frontend (`frontend/.env`)
-See `frontend/.env.example` for all available variables. Key variables:
-- `NEXT_PUBLIC_API_URL`
-- `NEXT_PUBLIC_APP_URL`
-- `NEXT_PUBLIC_JWT_EXPIRY`, `NEXT_PUBLIC_JWT_REFRESH_EXPIRY`
-- `NEXT_PUBLIC_ENABLE_REGISTRATION`, `NEXT_PUBLIC_ENABLE_EMAIL_VERIFICATION`
+### Frontend Setup
 
-## Deployment
-- Both backend and frontend build as Docker images
-- Cloud-agnostic: deploy anywhere Docker is supported
+1. Install dependencies:
+```bash
+cd frontend
+npm install
+```
 
----
-MIT License 
+2. Set up environment variables:
+```bash
+cp .env.example .env.local
+```
+Edit `.env.local` with your configuration:
+```
+NEXT_PUBLIC_API_URL=http://localhost:8000/api/v1
+```
+
+3. Start the development server:
+```bash
+npm run dev
+```
+
+## Payment System
+
+The boilerplate includes a complete payment system with the following features:
+
+### Backend
+
+- Payment plan management
+- Subscription handling
+- Payment processing
+- Support for multiple payment providers (Stripe & LemonSqueezy)
+
+### Frontend
+
+- Payment plan display
+- Subscription management
+- Protected routes based on subscription status
+- Responsive payment UI
+
+### Setting Up Payments
+
+1. **Stripe Setup**
+   - Create a Stripe account
+   - Get your API keys from the Stripe dashboard
+   - Create products and prices in Stripe
+   - Update the `provider_price_id` in the payment plans with your Stripe price IDs
+
+2. **LemonSqueezy Setup (Optional)**
+   - Create a LemonSqueezy account
+   - Get your API key from the dashboard
+   - Create products in LemonSqueezy
+   - Update the `provider_price_id` in the payment plans with your LemonSqueezy variant IDs
+
+3. **Configure Payment Provider**
+   - Set `PAYMENT_PROVIDER=stripe` or `PAYMENT_PROVIDER=lemonsqueezy` in your backend `.env` file
+   - Add the corresponding API keys and secrets
+
+## API Documentation
+
+Once the backend server is running, you can access the API documentation at:
+- Swagger UI: http://localhost:8000/swagger/
+- ReDoc: http://localhost:8000/redoc/
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
